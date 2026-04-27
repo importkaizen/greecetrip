@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Greece Trip Planner — Santorini & Athens</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --white: #FFFFFF;
+      --bg: #F7F6F3;
+      --bg-card: #FFFFFF;
+      --bg-secondary: #F0EFEC;
+      --bg-tertiary: #E8E6E1;
+      --text-primary: #1A1A1A;
+      --text-secondary: #5C5C5C;
+      --text-tertiary: #8C8C8C;
+      --border: #E2E0DB;
+      --border-light: #ECEAE5;
+      --santorini: #C2410C;
+      --santorini-bg: #FFF7ED;
+      --santorini-light: #FDBA74;
+      --athens: #1D4ED8;
+      --athens-bg: #EFF6FF;
+      --athens-light: #93C5FD;
+      --travel: #7C3AED;
+      --travel-bg: #F5F3FF;
+      --green: #15803D;
+      --green-bg: #F0FDF4;
+      --amber: #B45309;
+      --amber-bg: #FFFBEB;
+      --pink: #BE185D;
+      --pink-bg: #FDF2F8;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 6px rgba(0,0,0,0.04), 0 2px 4px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.06), 0 4px 10px rgba(0,0,0,0.04);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Landing page ─── */
+    .landing {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, #0a1628 0%, #132848 35%, #1a3a5c 60%, #1e4d6e 100%);
+      color: var(--white);
+      text-align: center;
+      padding: 2rem;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .landing.hidden {
+      opacity: 0;
+      transform: translateY(-30px);
+      pointer-events: none;
+    }
+    .landing::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 600px 400px at 20% 80%, rgba(251, 191, 36, 0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 350px at 80% 20%, rgba(96, 165, 250, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .landing-inner {
+      position: relative;
+      max-width: 560px;
+    }
+    .landing-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      opacity: 0.4;
+      margin-bottom: 1.5rem;
+    }
+    .landing h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      margin-bottom: 0.5rem;
+    }
+    .landing h1 span {
+      display: block;
+      background: linear-gradient(135deg, #93C5FD, #FDBA74);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .landing-sub {
+      font-size: 1.1rem;
+      opacity: 0.5;
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+    }
+    .landing-details {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+    .landing-detail {
+      font-size: 13px;
+      opacity: 0.45;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .landing-detail strong {
+      color: var(--white);
+      opacity: 1;
+      font-weight: 600;
+    }
+    .landing-enter {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white);
+      color: #0a1628;
+      border: none;
+      padding: 14px 36px;
+      border-radius: 99px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+    }
+    .landing-enter:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    .landing-enter:active { transform: translateY(0); }
+    .landing-enter svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.2s ease;
+    }
+    .landing-enter:hover svg { transform: translateX(3px); }
+
+    /* ─── Header bar (replaces old hero) ─── */
+    .header-bar {
+      background: #0f1f38;
+      color: var(--white);
+      padding: 14px 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-size: 13px;
+    }
+    .header-title {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .header-sep {
+      width: 1px;
+      height: 16px;
+      background: rgba(255,255,255,0.15);
+    }
+    .header-detail {
+      opacity: 0.55;
+      font-weight: 500;
+    }
+
+    /* ─── Container ─── */
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 1.25rem 3rem;
+    }
+
+    /* ─── Tabs ─── */
+    .tabs {
+      display: flex;
+      gap: 6px;
+      padding: 1.5rem 0 1.25rem;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 100;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 1.5rem;
+    }
+    .tab {
+      padding: 9px 18px;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      background: var(--white);
+      color: var(--text-secondary);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .tab:hover:not(.active) {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border-color: var(--bg-tertiary);
+    }
+    .tab.active {
+      background: var(--text-primary);
+      color: var(--white);
+      border-color: var(--text-primary);
+    }
+
+    /* ─── Sections ─── */
+    .section { display: none; animation: fadeIn 0.3s ease; }
+    .section.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 14px;
+    }
+
+    /* ─── Route strip ─── */
+    .route-strip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--white);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 14px 20px;
+      margin-bottom: 1.75rem;
+      font-size: 13px;
+      color: var(--text-secondary);
+      flex-wrap: wrap;
+      box-shadow: var(--shadow-sm);
+    }
+    .route-stop { font-weight: 600; color: var(--text-primary); }
+    .route-arrow { color: var(--text-tertiary); font-size: 12px; }
+
+    /* ─── Day cards ─── */
+    .day-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: 1.5rem;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s ease;
+    }
+    .day-card:hover { box-shadow: var(--shadow-md); }
+
+    .day-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .day-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      flex-shrink: 0;
+    }
+    .day-badge.santorini { background: var(--santorini-bg); color: var(--santorini); }
+    .day-badge.athens { background: var(--athens-bg); color: var(--athens); }
+    .day-badge.travel { background: var(--travel-bg); color: var(--travel); }
+
+    .day-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .day-sub {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+
+    /* ─── Birthday banner ─── */
+    .bday-banner {
+      background: linear-gradient(135deg, var(--pink-bg), #FCE7F3);
+      border: 1px solid #F9A8D4;
+      border-radius: var(--radius-md);
+      padding: 12px 18px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: var(--pink);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .bday-banner::before { content: '🎂'; font-size: 18px; }
+
+    /* ─── Highlight box ─── */
+    .highlight-box {
+      background: var(--amber-bg);
+      border: 1px solid #FDE68A;
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      font-size: 13px;
+      color: var(--amber);
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+
+    /* ─── Timeline ─── */
+    .timeline {
+      border-left: 2px solid var(--border-light);
+      margin-left: 8px;
+      padding-left: 20px;
+    }
+    .time-item {
+      position: relative;
+      margin-bottom: 14px;
+      padding-bottom: 2px;
+    }
+    .time-item:last-child { margin-bottom: 0; }
+    .time-item::before {
+      content: '';
+      position: absolute;
+      left: -25px;
+      top: 7px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--bg-tertiary);
+      border: 2px solid var(--white);
+      box-shadow: 0 0 0 2px var(--border);
+    }
+    .time-label {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 3px;
+    }
+    .time-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    /* ─── Accommodation cards ─── */
+    .accom-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: 1.5rem;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .accom-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+    .accom-name { font-size: 15px; font-weight: 600; color: var(--text-primary); }
+    .accom-location { font-size: 13px; color: var(--text-secondary); margin-top: 3px; }
+    .accom-price { font-size: 15px; font-weight: 600; text-align: right; color: var(--green); }
+    .accom-nights { font-size: 12px; color: var(--text-tertiary); text-align: right; margin-top: 2px; }
+    .accom-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 99px;
+      margin-right: 6px;
+      margin-top: 8px;
+    }
+    .tag-blue { background: var(--athens-bg); color: var(--athens); }
+    .tag-coral { background: var(--santorini-bg); color: var(--santorini); }
+    .tag-green { background: var(--green-bg); color: var(--green); }
+    .accom-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+    .accom-total {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px 20px;
+      margin-top: 1.25rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .accom-total-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+    .accom-total-value { font-size: 22px; font-weight: 700; color: var(--text-primary); }
+    .accom-total-value span { font-size: 14px; font-weight: 400; color: var(--text-tertiary); }
+    .accom-total-note { font-size: 12px; color: var(--text-tertiary); margin-top: 6px; }
+
+    /* ─── Budget ─── */
+    .total-banner {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-md);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .total-label { font-size: 13px; color: var(--text-secondary); }
+    .total-amount { font-size: 24px; font-weight: 700; color: var(--text-primary); margin-top: 2px; }
+    .good-tag {
+      display: inline-block;
+      background: var(--green-bg);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 99px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .your-budget-label { font-size: 11px; color: var(--text-tertiary); text-align: right; }
+    .your-budget-value { font-size: 16px; font-weight: 600; text-align: right; }
+
+    .budget-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+    .budget-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .budget-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .budget-label {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .budget-amount { font-size: 22px; font-weight: 700; color: var(--text-primary); }
+    .budget-sub { font-size: 12px; color: var(--text-tertiary); margin-top: 4px; }
+
+    .budget-bar-wrap { margin-bottom: 2rem; }
+    .budget-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .budget-row-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      width: 120px;
+      flex-shrink: 0;
+      font-weight: 500;
+    }
+    .budget-bar-outer {
+      flex: 1;
+      height: 10px;
+      background: var(--bg-secondary);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .budget-bar-inner {
+      height: 100%;
+      border-radius: 99px;
+      transition: width 0.6s ease;
+    }
+    .budget-row-val {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      width: 80px;
+      text-align: right;
+    }
+
+    .note-box {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-top: 16px;
+    }
+
+    /* ─── Flights & Ferries ─── */
+    .flight-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: 1.5rem;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s ease;
+    }
+    .flight-card:hover { box-shadow: var(--shadow-md); }
+
+    .flight-route {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+    .airport {
+      font-size: 20px;
+      font-weight: 700;
+      font-family: var(--font-serif);
+      letter-spacing: 0.02em;
+    }
+    .flight-dash {
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, var(--border-light), var(--border), var(--border-light));
+      border-radius: 1px;
+    }
+    .flight-plane {
+      font-size: 16px;
+      color: var(--text-tertiary);
+    }
+    .flight-detail {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+    .flight-tags { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+    .price-pill {
+      display: inline-block;
+      background: var(--green-bg);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 99px;
+    }
+    .ferry-pill {
+      display: inline-block;
+      background: var(--athens-bg);
+      color: var(--athens);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 99px;
+    }
+    .flight-note {
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+    .ferry-name {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .ferry-detail {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+    .ferry-extra {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    /* ─── Tips ─── */
+    .tip-list { list-style: none; }
+    .tip-list li {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border-light);
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      display: flex;
+      gap: 14px;
+    }
+    .tip-list li:last-child { border-bottom: none; }
+    .tip-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+    .tip-icon.money { background: var(--green-bg); color: var(--green); }
+    .tip-icon.info { background: var(--athens-bg); color: var(--athens); }
+    .tip-icon.warn { background: var(--amber-bg); color: var(--amber); }
+    .tip-list strong { color: var(--text-primary); }
+
+    /* ─── Footer ─── */
+    .footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 12px;
+      color: var(--text-tertiary);
+      border-top: 1px solid var(--border-light);
+      margin-top: 1rem;
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 600px) {
+      .landing h1 { font-size: clamp(2rem, 10vw, 3rem); }
+      .landing-details { gap: 1rem; }
+      .landing-enter { padding: 12px 28px; font-size: 14px; }
+      .header-bar { padding: 12px 1rem; gap: 12px; font-size: 12px; }
+      .header-title { font-size: 15px; }
+      .header-sep { display: none; }
+      .tabs { gap: 6px; padding: 1rem 0; }
+      .tab { padding: 8px 14px; font-size: 12px; }
+      .day-card, .accom-card, .flight-card { padding: 1.25rem; }
+      .accom-header { flex-direction: column; }
+      .accom-price, .accom-nights { text-align: left; }
+      .total-banner { flex-direction: column; align-items: flex-start; }
+      .your-budget-label, .your-budget-value { text-align: left; }
+      .budget-grid { grid-template-columns: repeat(2, 1fr); }
+      .budget-row-label { width: 90px; font-size: 12px; }
+      .route-strip { padding: 12px 14px; gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════ Landing Page ═══════ -->
+<div class="landing" id="landing">
+  <div class="landing-inner">
+    <div class="landing-eyebrow">Trip Planner</div>
+    <h1>Santorini<span>& Athens</span></h1>
+    <div class="landing-sub">A 7-day birthday trip through the Greek islands and ancient ruins</div>
+    <div class="landing-details">
+      <div class="landing-detail"><strong>June 9–15</strong></div>
+      <div class="landing-detail"><strong>2</strong> travellers</div>
+      <div class="landing-detail"><strong>~$3K</strong> CAD</div>
+    </div>
+    <button class="landing-enter" onclick="enterSite()">
+      View the plan
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════ Header Bar ═══════ -->
+<header class="header-bar">
+  <div class="header-title">Santorini & Athens</div>
+  <div class="header-sep"></div>
+  <div class="header-detail">June 9–15, 2026</div>
+  <div class="header-sep"></div>
+  <div class="header-detail">7 days · 2 people · ~$3K CAD</div>
+</header>
+
+<!-- ═══════ Main Content ═══════ -->
+<div class="container">
+  <nav class="tabs" role="tablist">
+    <button class="tab active" onclick="show('itinerary', event)" role="tab">Itinerary</button>
+    <button class="tab" onclick="show('accommodation', event)" role="tab">Accommodation</button>
+    <button class="tab" onclick="show('budget', event)" role="tab">Budget</button>
+    <button class="tab" onclick="show('flights', event)" role="tab">Flights & Ferries</button>
+    <button class="tab" onclick="show('tips', event)" role="tab">Tips</button>
+  </nav>
+
+  <!-- ─── Itinerary ─── -->
+  <div id="itinerary" class="section active">
+    <div class="route-strip">
+      <span class="route-stop">Toronto (YYZ)</span>
+      <span class="route-arrow">→</span>
+      <span class="route-stop">Athens (ATH)</span>
+      <span class="route-arrow">→ ferry →</span>
+      <span class="route-stop">Santorini</span>
+      <span class="route-arrow">→ ferry →</span>
+      <span class="route-stop">Athens</span>
+      <span class="route-arrow">→</span>
+      <span class="route-stop">Toronto (YYZ)</span>
+    </div>
+
+    <!-- Day 1 -->
+    <div class="day-card">
+      <div class="day-header">
+        <div class="day-badge travel">D1</div>
+        <div>
+          <div class="day-title">June 9 — Arrive & Straight to Santorini</div>
+          <div class="day-sub">Athens Piraeus → Santorini ferry</div>
+        </div>
+      </div>
+      <div class="highlight-box">Ferry tip: Book a morning Blue Star departure from Piraeus (~7:30am). Land in Athens, take metro to Piraeus (~45 min), board ferry, arrive Santorini by mid-afternoon. It's a big travel day but you wake up on the island on your birthday!</div>
+      <div class="timeline">
+        <div class="time-item">
+          <div class="time-label">Flight lands</div>
+          <div class="time-text">Arrive Athens ATH. Metro Line 3 to Monastiraki, then Line 1 to Piraeus port (~45 min total, €9/person). Head straight to Gate E6/E7.</div>
+        </div>
+        <div class="time-item">
+          <div class="time-label">Ferry departs</div>
+          <div class="time-text">Blue Star Ferry from Piraeus to Santorini. ~7–8 hr crossing. Grab a sun deck spot — the Aegean scenery is spectacular. Pack snacks or use the onboard café.</div>
+        </div>
+        <div class="time-item">
+          <div class="time-label">Late afternoon</div>
+          <div class="time-text">Arrive Athinios Port, Santorini. Pre-book a private transfer to Perissa (~€35–45 for the car — no direct bus from Athinios to Perissa). Check in, freshen up. First sunset on the island!</div>
+        </div>
+        <div class="time-item">
+          <div class="time-label">Evening</div>
+          <div class="time-text">Beachfront dinner in Perissa. Fresh grilled fish and local Assyrtiko wine. You made it to Santorini — toast to that.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 2 — Birthday -->
+    <div class="day-card">
+      <div class="bday-banner"> Birthday — June 10!</div>
+      <div class="day-header">
+        <div class="day-badge santorini">D2</div>
+        <div>
+          <div class="day-title">June 10 — Birthday in Santorini</div>
+          <div class="day-sub">Perissa beach + Oia sunset</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="time-item">
+          <div class="time-label">Morning</div>
+          <div class="time-text">Wake up on the black sand beach. Swim in the Aegean, lie in the sun. This is your day — no rush. Breakfast at a beachfront café with fresh fruit, yoghurt and honey (€8–10).</div>
+        </div>
+        <div class="time-item">
+          <div class="time-label">Midday</div>
+          <div class="time-text">Rent an ATV/scooter (€25–35/day for two) and drive up to Ancient Thira — a 4th-century BC city perched on Mesa Vouno mountain above Perissa. Incredible views over both coasts.</div>
+        </div>
+        <div class="time-item">
+          <div class="time-label">Afternoon</div>
+          <div class="time-text">Drive to Fira (the capital) for a wander. Explore the caldera edge, have a coffee overlooking the volcano. Then head to Oia — the iconic white-and-blue village at the island's northern tip.</div>
+        </div>
+        <div class="time-item">
+          <div class="time-label">Birthday sunset</div>
+          <div class="time-text">Watch the sunset from Oia's castle ruins — one of the most famous sunsets in the world. Arrive by 7pm to get a spot. The sky turns gold and pink over the caldera. Unforgettable birthday moment.</div>
+        </div>
+        <div class="time-item">
+          <div class="time-label">Birthday dinner</div>
+          <div class="time-text">Splurge on a birthday dinner in Oia or Fira with caldera views. Budget €30–45/person for a special meal with wine. You've earned it.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 3 -->
+    <div class="day-card">
+      <div class="day-header">
+        <div class="day-badge santorini">D3</div>
+        <div>
+          <div class="day-title">June 11 — Akrotiri & Wine</div>
+          <div class="day-sub">Archaeology + Santorinian wine tasting</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="time-item">
+          <div class="time-label">Morning</div>
+          <div class="time-text">Akrotiri — Santorini's "Minoan Pompeii." A 3,600-year-old Bronze Age city preserved under volcanic ash. One of Greece's most important archaeological sites. Bus from Fira (€2) or drive. Entrance €15/person.</div>
+        </div>
+        <div class="time-item">
+          <div class="time-label">Midday</div>
+          <div class="time-text">Red Beach — a 5-minute walk from Akrotiri. Dramatic red and black volcanic cliffs meeting the sea. Unique and stunning. Grab lunch at a nearby taverna.</div>
+        </div>
+        <div class="time-item">
+          <div class="time-label">Afternoon</div>
+          <div class="time-text">Wine tasting at Santo Wines or Venetsanos Winery — both have caldera views and Santorini's famous Assyrtiko white wine. A tasting flight is €12–18/person and includes jaw-dropping views.</div>
+        </div>
+        <div class="time-item">
+          <div class="time-label">Evening</div>
+          <div class="time-text">Back to Perissa for a relaxed dinner and beach bar drinks. Watch the stars over the Aegean.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 4 -->
+    <div class="day-card">
+      <div class="day-header">
+        <div class="day-badge santorini">D4</div>
+        <div>
+          <div class="day-title">June 12 — Fira & Last Beach Day</div>
+          <div class="day-sub">Explore the capital, afternoon on Perivolos</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="time-item">
+          <div class="time-label">Morning</div>
+          <div class="time-text">Spend the morning in Fira — walk the caldera path, visit the Museum of Prehistoric Thera (€6), and browse the local shops. Grab a coffee on the cliffside.</div>
+        </div>
+        <div class="time-item">
+          <div class="time-label">Afternoon</div>
+          <div class="time-text">Last beach afternoon at Perivolos (the southern, more upscale extension of Perissa). Lounge, swim, and enjoy the black sand one last time. Some beach clubs have free sunbeds if you order drinks.</div>
+        </div>
+        <div class="time-item">
+          <div class="time-label">Evening</div>
+          <div class="time-text">Dinner in Perissa village — fresh seafood meze platter and local wine at a harbour-side taverna. Early night — ferry to Athens tomorrow morning.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 5 -->
+    <div class="day-card">
+      <div class="day-header">
+        <div class="day-badge travel">D5</div>
+        <div>
+          <div class="day-title">June 13 — Ferry back to Athens</div>
+          <div class="day-sub">Santorini → Piraeus, settle into Athens</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="time-item">
+          <div class="time-label">Morning</div>
+          <div class="time-text">Morning ferry from Athinios port back to Piraeus. Take the bus from Perissa to Fira, then connecting bus to the port (allow 90 min + early arrival at port). Or book private transfer (€35).</div>
+        </div>
+        <div class="time-item">
+          <div class="time-label">Afternoon</div>
+          <div class="time-text">Arrive Piraeus. Metro to Monastiraki. Check into Athens hotel. Drop bags and head to the Monastiraki flea market — great souvenir shopping and people-watching.</div>
+        </div>
+        <div class="time-item">
+          <div class="time-label">Evening</div>
+          <div class="time-text">First real evening in Athens. Dinner in Psiri neighbourhood — one of Athens' best areas for affordable, authentic food. Try lamb souvlaki or moussaka (€12–15/person at local spots).</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 6 -->
+    <div class="day-card">
+      <div class="day-header">
+        <div class="day-badge athens">D6</div>
+        <div>
+          <div class="day-title">June 14 — Acropolis Day</div>
+          <div class="day-sub">Athens' ancient heart</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="time-item">
+          <div class="time-label">Early morning (8am)</div>
+          <div class="time-text">Beat the heat and the crowds — arrive at the Acropolis gates when they open. The €30 combo ticket covers 7 sites: Acropolis, Agora, Olympieion, Kerameikos, and more. See the Parthenon in morning light.</div>
+        </div>
+        <div class="time-item">
+          <div class="time-label">Late morning</div>
+          <div class="time-text">Acropolis Museum (€10/person) — stunning modern building showcasing the original Parthenon sculptures. One of the best museums in Europe. Air-conditioned escape from midday heat.</div>
+        </div>
+        <div class="time-item">
+          <div class="time-label">Afternoon</div>
+          <div class="time-text">Plaka neighbourhood — Athens' oldest and most charming area, winding lanes below the Acropolis. Lunch at a shaded taverna. Browse shops for olive oil, ceramics, and local products to bring home.</div>
+        </div>
+        <div class="time-item">
+          <div class="time-label">Evening</div>
+          <div class="time-text">Sunset drinks at a Monastiraki rooftop bar with Acropolis views. Then dinner in the neighbourhood — gyros, Greek salad, and cold Mythos beer.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day 7 -->
+    <div class="day-card">
+      <div class="day-header">
+        <div class="day-badge athens">D7</div>
+        <div>
+          <div class="day-title">June 15 — Cape Sounion & Fly Home</div>
+          <div class="day-sub">Morning excursion, afternoon flight</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="time-item">
+          <div class="time-label">Morning</div>
+          <div class="time-text">Early KTEL bus to Cape Sounion (€8/person, 2 hrs each way) — the Temple of Poseidon perched on dramatic cliffs over the Aegean. Lord Byron carved his name in the stone. Arrive before the heat peaks.</div>
+        </div>
+        <div class="time-item">
+          <div class="time-label">Midday</div>
+          <div class="time-text">Back to Athens by early afternoon. Light lunch near the hotel. Collect bags, check out.</div>
+        </div>
+        <div class="time-item">
+          <div class="time-label">Afternoon/Evening</div>
+          <div class="time-text">Metro Line 3 from Monastiraki to the airport (€9/person, ~40 min). Evening flight home to Toronto. Safe travels — what a birthday trip!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Accommodation ─── -->
+  <div id="accommodation" class="section">
+    <div class="section-title">Santorini — 4 nights (June 9–12)</div>
+    <div class="accom-card">
+      <div class="accom-header">
+        <div>
+          <div class="accom-name">Smaragdi Hotel or similar — Perissa/Perivolos</div>
+          <div class="accom-location">Perissa beach area — best value in Santorini, steps from the black sand</div>
+          <div>
+            <span class="accom-tag tag-coral">Beachfront area</span>
+            <span class="accom-tag tag-green">Best value on island</span>
+          </div>
+        </div>
+        <div>
+          <div class="accom-price">~$120–160 CAD/night</div>
+          <div class="accom-nights">4 nights = ~$480–640 CAD total</div>
+        </div>
+      </div>
+      <div class="accom-desc">Perissa is the smartest budget choice on Santorini — pool, steps from the beach, good restaurants nearby, and 40–60% cheaper than caldera-view hotels in Fira/Oia. Smaragdi is consistently rated one of the best budget picks. Also check: Meltemi Village, Aqua Blue Hotel, or Perissa Bay. Book via Booking.com with free cancellation. Target rooms under €90/night (private double).</div>
+    </div>
+
+    <div class="section-title" style="margin-top: 1.75rem;">Athens — 3 nights (June 13–15)</div>
+    <div class="accom-card">
+      <div class="accom-header">
+        <div>
+          <div class="accom-name">Budget guesthouse — Monastiraki or Psiri</div>
+          <div class="accom-location">Central Athens — walkable to Acropolis, Plaka, and Syntagma</div>
+          <div>
+            <span class="accom-tag tag-blue">Great location</span>
+            <span class="accom-tag tag-green">Much cheaper than Santorini</span>
+          </div>
+        </div>
+        <div>
+          <div class="accom-price">~$65–90 CAD/night</div>
+          <div class="accom-nights">3 nights = ~$195–270 CAD total</div>
+        </div>
+      </div>
+      <div class="accom-desc">Athens is significantly more affordable than Santorini. Budget hotels in Monastiraki or Psiri area run €45–65/night for a clean private double. Look for 8+ ratings on Booking.com. Examples: Athos Hotel, Cecil Hotel, or similar well-reviewed budget options near the metro.</div>
+    </div>
+
+    <div class="accom-total">
+      <div class="accom-total-label">Total accommodation estimate</div>
+      <div class="accom-total-value">$675–910 CAD <span>for two people, 7 nights</span></div>
+      <div class="accom-total-note">Book Santorini first — it fills up fast in June. Use free cancellation so you can rebook if better prices appear.</div>
+    </div>
+  </div>
+
+  <!-- ─── Budget ─── -->
+  <div id="budget" class="section">
+    <div class="total-banner">
+      <div>
+        <div class="total-label">Estimated total — 2 people, 7 days</div>
+        <div class="total-amount">~$2,950–3,150 CAD <span class="good-tag">within range</span></div>
+      </div>
+      <div>
+        <div class="your-budget-label">Your budget</div>
+        <div class="your-budget-value">$3,000–3,200 CAD</div>
+      </div>
+    </div>
+
+    <div class="budget-grid">
+      <div class="budget-card">
+        <div class="budget-label">Flights (2 ppl)</div>
+        <div class="budget-amount">$1,400</div>
+        <div class="budget-sub">~$700/person return</div>
+      </div>
+      <div class="budget-card">
+        <div class="budget-label">Accommodation</div>
+        <div class="budget-amount">$790</div>
+        <div class="budget-sub">7 nights shared</div>
+      </div>
+      <div class="budget-card">
+        <div class="budget-label">Ferries (2 ppl)</div>
+        <div class="budget-amount">$240</div>
+        <div class="budget-sub">Both ways, numbered seats</div>
+      </div>
+      <div class="budget-card">
+        <div class="budget-label">Food (2 ppl)</div>
+        <div class="budget-amount">$420</div>
+        <div class="budget-sub">Incl. birthday dinner</div>
+      </div>
+      <div class="budget-card">
+        <div class="budget-label">Activities</div>
+        <div class="budget-amount">$150</div>
+        <div class="budget-sub">Sites, wine, ATV</div>
+      </div>
+      <div class="budget-card">
+        <div class="budget-label">Local transport</div>
+        <div class="budget-amount">$120</div>
+        <div class="budget-sub">Buses, metro, transfers</div>
+      </div>
+    </div>
+
+    <div class="section-title">Where the money goes</div>
+    <div class="budget-bar-wrap">
+      <div class="budget-row">
+        <div class="budget-row-label">Flights</div>
+        <div class="budget-bar-outer"><div class="budget-bar-inner" style="width: 46%; background: #3B82F6;"></div></div>
+        <div class="budget-row-val">$1,400</div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-row-label">Accommodation</div>
+        <div class="budget-bar-outer"><div class="budget-bar-inner" style="width: 26%; background: #F97316;"></div></div>
+        <div class="budget-row-val">$790</div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-row-label">Food</div>
+        <div class="budget-bar-outer"><div class="budget-bar-inner" style="width: 14%; background: #EAB308;"></div></div>
+        <div class="budget-row-val">$420</div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-row-label">Ferries</div>
+        <div class="budget-bar-outer"><div class="budget-bar-inner" style="width: 8%; background: #8B5CF6;"></div></div>
+        <div class="budget-row-val">$240</div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-row-label">Activities</div>
+        <div class="budget-bar-outer"><div class="budget-bar-inner" style="width: 5%; background: #10B981;"></div></div>
+        <div class="budget-row-val">$150</div>
+      </div>
+      <div class="budget-row">
+        <div class="budget-row-label">Local transport</div>
+        <div class="budget-bar-outer"><div class="budget-bar-inner" style="width: 4%; background: #EC4899;"></div></div>
+        <div class="budget-row-val">$120</div>
+      </div>
+    </div>
+
+    <div class="note-box">Flights are the biggest variable. If you find fares under $650/person, you'll come in well under $3,000 total. Accommodation in Perissa is the second-biggest swing — booking early (now!) can lock you in at lower rates before June demand spikes further. Food budget assumes a mix of street food, tavernas, and one splurge birthday dinner. Exchange rate used: 1 EUR ≈ 1.48 CAD.</div>
+  </div>
+
+  <!-- ─── Flights & Ferries ─── -->
+  <div id="flights" class="section">
+    <div class="section-title">Toronto (YYZ) → Athens (ATH) — International flights</div>
+
+    <div class="flight-card">
+      <div class="flight-route">
+        <span class="airport">YYZ</span>
+        <div class="flight-dash"></div>
+        <span class="flight-plane">✈</span>
+        <div class="flight-dash"></div>
+        <span class="airport">ATH</span>
+      </div>
+      <div class="flight-detail">Direct — 9h 30m · Air Transat or Air Canada (4x/week)</div>
+      <div class="flight-tags">
+        <span class="price-pill">~$680–800 CAD/person return</span>
+        <span class="flight-note">Best comfort option</span>
+      </div>
+    </div>
+
+    <div class="flight-card">
+      <div class="flight-route">
+        <span class="airport">YYZ</span>
+        <div class="flight-dash"></div>
+        <span class="flight-plane">✈</span>
+        <div class="flight-dash"></div>
+        <span class="airport">ATH</span>
+      </div>
+      <div class="flight-detail">1 stop via Frankfurt / Paris / Amsterdam — 13–15h total · Lufthansa, KLM, Air France</div>
+      <div class="flight-tags">
+        <span class="price-pill">~$580–700 CAD/person return</span>
+        <span class="flight-note">Cheapest option</span>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top: 2rem;">Athens (Piraeus) ↔ Santorini — Ferries</div>
+
+    <div class="flight-card">
+      <div class="ferry-name">Blue Star Ferries — recommended</div>
+      <div class="ferry-detail">7–8 hrs · Stable, spacious, open decks · Departs ~7:30am from Piraeus (Gate E6–E8)</div>
+      <div class="flight-tags">
+        <span class="ferry-pill">~€57–70/person one way (~$85–105 CAD)</span>
+      </div>
+      <div class="ferry-extra">Book a Numbered Seat (not deck class) for ~€15 more — worth it for the comfort on a 7-hr crossing. Book both directions now on Ferryhopper.com.</div>
+    </div>
+
+    <div class="flight-card">
+      <div class="ferry-name">SeaJets — faster option</div>
+      <div class="ferry-detail">4.5–5 hrs · High-speed catamaran · Rougher in choppy seas</div>
+      <div class="flight-tags">
+        <span class="ferry-pill">~€109+/person one way (~$160+ CAD)</span>
+      </div>
+      <div class="ferry-extra">Saves ~3 hrs but costs significantly more. Good for the return leg if you want to maximize your last day in Athens.</div>
+    </div>
+
+    <div class="note-box">Ferry total estimate for 2 people, both directions on Blue Star with numbered seats: ~$340–420 CAD total. Book on Ferryhopper.com — no hidden fees. June ferries book up, especially the morning sailings.</div>
+  </div>
+
+  <!-- ─── Tips ─── -->
+  <div id="tips" class="section">
+    <ul class="tip-list">
+      <li><div class="tip-icon warn">!</div><div><strong>Book the ferry before the hotel.</strong> June Blue Star morning sailings from Piraeus to Santorini sell out. This is your most time-sensitive booking. Go to Ferryhopper.com today.</div></li>
+      <li><div class="tip-icon warn">!</div><div><strong>Port transfer in Santorini is tricky.</strong> There are no direct buses from Athinios port to Perissa. Book a private transfer in advance (~€35–45/car). Do not count on finding a taxi at the port in June.</div></li>
+      <li><div class="tip-icon money">$</div><div><strong>Perissa vs Oia accommodation.</strong> A hotel in Perissa costs 40–60% less than caldera-view hotels in Oia or Imerovigli. You still get Santorini — just with better beaches and a lower bill. Day-trip to Oia for the sunset.</div></li>
+      <li><div class="tip-icon money">$</div><div><strong>Oia sunset — arrive by 7pm.</strong> The prime sunset viewpoint at Oia Castle fills up 45–60 minutes before sunset in June. Get there early and find your spot. It's free, but crowded — go on a weekday if possible.</div></li>
+      <li><div class="tip-icon info">i</div><div><strong>Rent an ATV, not a car.</strong> An ATV for two costs €25–35/day and is perfect for Santorini's roads. Much cheaper than a car rental, easy to park, and more fun. Bring sunscreen — there's no shade on the road.</div></li>
+      <li><div class="tip-icon money">$</div><div><strong>Athens €30 combo ticket.</strong> Covers 7 sites including the Acropolis, Ancient Agora, Temple of Zeus, and Kerameikos. Buy it at the first site you visit — it's valid for 5 days.</div></li>
+      <li><div class="tip-icon info">i</div><div><strong>Airport bus in Athens.</strong> Metro Line 3 from the airport to city centre costs €9/person. Taxis run €40+. The metro is fast (40 min) and reliable — use it both ways.</div></li>
+      <li><div class="tip-icon money">$</div><div><strong>Free sunbeds in Perissa.</strong> Many beach tavernas offer free sunbeds if you order food or drinks from them. Saves €10–20/day vs. renting sunbeds at a beach club.</div></li>
+      <li><div class="tip-icon warn">!</div><div><strong>Heat tip.</strong> In June, midday temperatures hit 30°C+. Do outdoor sightseeing before 11am or after 5pm. Carry water everywhere. The black sand in Perissa gets scorching — always wear flip-flops to the water.</div></li>
+      <li><div class="tip-icon info">i</div><div><strong>Travel insurance.</strong> With two ferry journeys involved (which can be cancelled due to Aegean winds), insurance is strongly recommended. Budget ~$80–120 CAD total for two people. Use a Canadian provider like Manulife or Allianz.</div></li>
+    </ul>
+  </div>
+
+  <footer class="footer">
+    Greece Trip Planner · Santorini & Athens · June 2026
+  </footer>
+</div>
+
+<script>
+function enterSite() {
+  var landing = document.getElementById('landing');
+  landing.classList.add('hidden');
+  document.body.style.overflow = '';
+  setTimeout(function() { landing.style.display = 'none'; }, 700);
+}
+
+document.body.style.overflow = 'hidden';
+
+function show(id, event) {
+  document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  if (event && event.target) event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
